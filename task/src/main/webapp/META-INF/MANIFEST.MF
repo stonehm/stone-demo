@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Build-Jdk: 1.7.0_80
-Built-By: stone
-Created-By: Apache Maven 3.3.9
-

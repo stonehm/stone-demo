@@ -1,0 +1,15 @@
+http:
+  config:
+    conn-max-total: 20
+    max-per-route: 20
+    time-to-live: 60
+    connect-timeout: 2000
+    keep-alive-time: 30
+    connect-request-timeout: 2000
+    socket-timeout: 2000
+user:
+  appId: yuYsd0cOYKyWGbRO,AysG55kMICs6ZQx6
+spring:
+  redis:
+    password: stythm950829
+    host: 127.0.0.1
