@@ -8,8 +8,8 @@ http:
     connect-request-timeout: 2000
     socket-timeout: 2000
 user:
-  appId: yuYsd0cOYKyWGbRO,AysG55kMICs6ZQx6
+  appId: yuYsd0cOYKyWGbRO
 spring:
   redis:
+    host: 140.143.251.72
     password: stythm950829
-    host: 127.0.0.1
