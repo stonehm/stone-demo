@@ -2,10 +2,7 @@ package com.stone.box.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.stone.box.model.Balloon;
-import com.stone.box.model.Friend;
-import com.stone.box.model.Precious;
-import com.stone.box.model.ResultData;
+import com.stone.box.model.*;
 import com.stone.box.task.DayTask;
 import com.stone.box.util.HttpClientUtil;
 
@@ -123,5 +120,32 @@ public class FlowServiceImpl implements FlowService {
 
         String result = httpClientUtil.post(uri, parameters);
         logger.info("drawBalloon:" + result);
+    }
+
+    @Override
+    public Pool getPoolStat(String appId) {
+        String uri = "http://api.irichi.cn:8348/screenlock/pool/stat";
+
+        Map<String, String> parameters = ParamUtil.getParametersMap(appId);
+
+        String result = httpClientUtil.post(uri, parameters);
+        logger.info("getPoolStat:" + result);
+        ResultData<Pool> resultData = new Gson().fromJson(result, new TypeToken<ResultData<Pool>>() {
+        }.getType());
+
+        return resultData.getData();
+    }
+
+    @Override
+    public void withdraw(String appId) {
+        String uri = "http://api.irichi.cn:8348/screenlock/pool/withdraw";
+
+        Map<String, String> parameters = ParamUtil.getParametersMap(appId);
+
+        parameters.put("amount", "100");
+        parameters.put("mobile", "18334791077");
+
+        String result = httpClientUtil.post(uri, parameters);
+        logger.info("withdraw:" + result);
     }
 }

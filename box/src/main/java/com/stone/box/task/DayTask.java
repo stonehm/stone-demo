@@ -1,5 +1,7 @@
 package com.stone.box.task;
 
+import com.stone.box.model.Friend;
+import com.stone.box.model.Pool;
 import com.stone.box.model.Precious;
 import com.stone.box.service.FlowService;
 
@@ -22,7 +24,7 @@ public class DayTask {
     FlowService flowService;
 
     @Value("${user.appId}")
-    private String appId;
+    private String[] appIds;
 
     @Autowired
     public DayTask(FlowService flowService) {
@@ -32,33 +34,53 @@ public class DayTask {
     @Scheduled(cron = "0 10,30,50 6-23 * * ?")
     public void balloon() {
         logger.info("execute balloon()");
-        logger.info("appId:" + appId);
-        flowService.getFriends(appId)
-                .forEach(p -> flowService.getBalloonList(appId, p.getFriendUserId())
-                        .forEach(balloon -> flowService.drawBalloon(appId, balloon.getId())));
+        for (String appId : appIds) {
+            logger.info("appId:" + appId);
+            List<Friend> friends = flowService.getFriends(appId);
+            friends.add(new Friend());
+            friends.forEach(p -> flowService.getBalloonList(appId, p.getFriendUserId())
+                    .forEach(balloon -> flowService.drawBalloon(appId, balloon.getId())));
+        }
         logger.info("exit balloon()");
     }
 
-    @Scheduled(cron = "0 0,20,40 * * * ?")
+    @Scheduled(cron = "0 */10 * * * ?")
     public void getPrecious() {
         logger.info("execute getPrecious()");
-        logger.info("appId:" + appId);
-        AtomicBoolean isAward = new AtomicBoolean(false);
-        List<Precious> preciousList = flowService.getPreciousList(appId);
-        preciousList.forEach(p -> {
-            if ("1".equals(p.getUnlockStatus()) && (System.currentTimeMillis() - p.getUnlockStartTime()) / 60000 > p.getUnlockPeriod()) {
-                flowService.awardPrecious(appId, p.getPreciousNo());
-                flowService.getPrecious(appId);
-                isAward.set(true);
-            }
-        });
-        if (isAward.get()) {
+        for (String appId : appIds) {
+            logger.info("appId:" + appId);
+            AtomicBoolean isAward = new AtomicBoolean(false);
+            List<Precious> preciousList = flowService.getPreciousList(appId);
             preciousList.forEach(p -> {
-                if ("0".equals(p.getUnlockStatus())) {
-                    flowService.unlockPrecious(appId, p.getPreciousNo());
+                boolean isUnlock = (System.currentTimeMillis() - p.getUnlockStartTime()) / 60000 > p.getUnlockPeriod();
+                if ("1".equals(p.getUnlockStatus()) && isUnlock) {
+                    flowService.awardPrecious(appId, p.getPreciousNo());
+                    flowService.getPrecious(appId);
+                    isAward.set(true);
                 }
             });
+            if (isAward.get()) {
+                preciousList.forEach(p -> {
+                    if ("0".equals(p.getUnlockStatus())) {
+                        flowService.unlockPrecious(appId, p.getPreciousNo());
+                    }
+                });
+            }
         }
         logger.info("exit getPrecious()");
+    }
+
+    @Scheduled(cron = "0 30 21 * * ?")
+    public void withdraw() {
+        logger.info("execute withdraw()");
+        for (String appId : appIds) {
+            if (!(appId.equals("yuYsd0cOYKyWGbRO") || appId.equals("AysG55kMICs6ZQx6"))) {
+                Pool pool = flowService.getPoolStat(appId);
+                if (pool.getAvailAmount() > 100) {
+                    flowService.withdraw(appId);
+                }
+            }
+        }
+        logger.info("exit withdraw()");
     }
 }

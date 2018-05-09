@@ -2,6 +2,7 @@ package com.stone.box.service;
 
 import com.stone.box.model.Balloon;
 import com.stone.box.model.Friend;
+import com.stone.box.model.Pool;
 import com.stone.box.model.Precious;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -87,5 +88,19 @@ public class FlowServiceTest {
 //                flowService.drawBalloon(appId, b.getId());
 //            }
 //        }
+//    }
+
+//    @Test
+//    public void getPoolStat() {
+//        String[] appIds = {"yuYsd0cOYKyWGbRO", "FPqBGom7oC1NeDYV", "4JUhIVPf0dNhAq9e", "A3F1ktab82y4gIqz", "AysG55kMICs6ZQx6"};
+//        for (String appId : appIds) {
+//            if (!(appId.equals("yuYsd0cOYKyWGbRO") || appId.equals("AysG55kMICs6ZQx6"))) {
+//                Pool pool = flowService.getPoolStat(appId);
+//                if (pool.getAvailAmount() > 100) {
+//                    System.out.println(appId);
+//                }
+//            }
+//        }
+//
 //    }
 }
