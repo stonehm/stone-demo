@@ -73,6 +73,27 @@ public class SendMessageController {
         return ResponseEntity.ok(map);
     }
 
+    @GetMapping("/sendDirectMessageString")
+    public ResponseEntity<String> sendDirectMessageString() {
+        String messageId = String.valueOf(UUID.randomUUID());
+        rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", messageId);
+        return ResponseEntity.ok(messageId);
+    }
+
+    @GetMapping("/sendDirectMessageList")
+    public ResponseEntity<String[]> sendDirectMessageList() {
+        String[] messageId = {String.valueOf(UUID.randomUUID())};
+        rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", messageId);
+        return ResponseEntity.ok(messageId);
+    }
+
+    @GetMapping("/sendFanoutMessageString")
+    public ResponseEntity<String> sendFanoutMessageString() {
+        String messageId = String.valueOf(UUID.randomUUID());
+        rabbitTemplate.convertAndSend("fanoutExchange", null, messageId);
+        return ResponseEntity.ok(messageId);
+    }
+
     // Ack
 
     @GetMapping("/TestMessageAck")
