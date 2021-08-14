@@ -4,11 +4,11 @@ spring:
   application:
     name: provider
   rabbitmq:
-    host: 114.115.154.105
+    host: 114.115.169.243
     port: 5672
     username: admin
-    password: admin123456
-    # È·ÈÏÏûÏ¢ÒÑ·¢ËÍµ½¶ÓÁĞ(Queue)
+    password: admin
+    # ç¡®è®¤æ¶ˆæ¯å·²å‘é€åˆ°é˜Ÿåˆ—(Queue)
     publisher-returns: true
-    # È·ÈÏÏûÏ¢ÒÑ·¢ËÍµ½½»»»»ú(Exchange)
+    # ç¡®è®¤æ¶ˆæ¯å·²å‘é€åˆ°äº¤æ¢æœº(Exchange)
     publisher-confirm-type: correlated

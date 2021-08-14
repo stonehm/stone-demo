@@ -18,6 +18,7 @@
     <modules>
         <module>provider</module>
         <module>consumer</module>
+        <module>queue-test</module>
     </modules>
 
     <properties>

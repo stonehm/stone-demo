@@ -2,7 +2,7 @@ server:
   port: 8022
 spring:
   application:
-    name: consumer
+    name: queue-test
   rabbitmq:
     host: 114.115.169.243
     port: 5672
